@@ -38,6 +38,11 @@ const Board = () => {
     scramble()
   },[sentence.length])
   
+  function checkLetter(e){
+    if(e.target.value.toLowerCase() === e.target.id.toLowerCase()){
+        
+    }
+  }
   
 
 
@@ -51,27 +56,40 @@ const Board = () => {
       {
 
           scrambledSentence.split(' ').map((word, i) => {
-              return(
-                  i === word.length - 1 && word.length !== 1?
-                    <div>
-                        {
-                            word.split('').map((char, j) => (
-                                          <input type="text" defaultValue="" value={char}/>
-                                      ))
-
-                        }
-                    </div>
-                    :
-                    <div>
-                        {
-                                word.split('').map((char, j) => {
-                                        return <input type="text"  value={char}/>
-                                }) 
-                        }
-                        <button></button>
-                    </div>
-                       
-              )
+              return i === word.length - 1 && word.length !== 1 ? (
+                <div key={i}>
+                  {word.split("").map((char, j) => (
+                    <input
+                      type="text"
+                      className="char-input"
+                      style={{ backgroundColor: "#22222230" }}
+                      key={j}
+                      id={char}
+                      maxlength="1"
+                      onChange={(e) => checkLetter(e)}
+                    />
+                  ))}
+                </div>
+              ) : (
+                <div key={i}>
+                  {word.split("").map((char, j) => (
+                    <input
+                      type="text"
+                      className="char-input"
+                      style={{ backgroundColor: "#22222230" }}
+                      key={j}
+                      id={char}
+                      maxlength="1"
+                      onChange={(e) => checkLetter(e)}
+                    />
+                  ))}
+                  <input
+                    className="space-slot"
+                    disabled
+                    style={{ backgroundColor: "#22222230" }}
+                  />
+                </div>
+              );
               
             })
       }
