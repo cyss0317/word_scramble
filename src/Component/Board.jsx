@@ -3,6 +3,7 @@ import React, { useState, useEffect } from "react";
 const Board = () => {
   const [sentence, setSentence] = useState("");
   const [scrambledSentence, setScrambledSentence] = useState("");
+  const [score, seScore] = useState(0)
 
   useEffect(() => {
     async function fetchWord() {
@@ -29,7 +30,7 @@ const Board = () => {
       }
       return scrambled
     });
-    debugger
+
     setScrambledSentence(scrambledWords.join(' '))
   }
 
@@ -41,9 +42,36 @@ const Board = () => {
 
 
   return (
-    <div>
-      <p id="scrambled-word">{scrambledSentence}</p>
+    <div className="main-container">
+      <h1 id="scrambled-word">{scrambledSentence}</h1>
+      <p>
+        Guess the sentence! Start typing. The yellow blocks are meant for spaces
+      </p>
+      <h2>Score: {score}</h2>
+      {
 
+          scrambledSentence.split(' ').map((word, i) => (
+              <div>
+                   {
+                       
+                       i !== word.length - 1 ?
+                            
+                        // for(let j = 0; j < word.length + 1; j++){
+                        //     return
+                        //     if(j < word.length ){
+                        //         return <input type="text"  value={char}/>
+                        //     } 
+                        //     if(j === word.length - 1) return <button> </button>
+
+                        // } 
+                        :
+                        word.split('').map((char, j) => (
+                            <input type="text" defaultValue="" value={char}/>
+                        ))
+                   }
+              </div>
+          ))
+      }
     </div>
   );
 };
