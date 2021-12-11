@@ -39,8 +39,20 @@ const Board = () => {
   },[sentence.length])
   
   function checkLetter(e){
+
     if(e.target.value.toLowerCase() === e.target.id.toLowerCase()){
-        
+        e.target.style.backgroundColor = "#00b300";
+        e.target.style.color ="white"
+    } else if( e.target.id === 'space' && e.target.value === ' '){
+        e.target.style.backgroundColor = "#00b300";
+        e.target.style.color = "white";
+    } else if (e.target.id === 'space' && e.target.value !== ' '){
+       e.target.style.backgroundColor = "#ffbf00";
+       e.target.style.color = "white";
+    } 
+    else {
+        e.target.style.backgroundColor = "#22222220";
+        e.target.style.color = "black";
     }
   }
   
@@ -53,13 +65,13 @@ const Board = () => {
         Guess the sentence! Start typing. The yellow blocks are meant for spaces
       </p>
       <h2>Score: {score}</h2>
+      <section className="sentence-container">
       {
-
           scrambledSentence.split(' ').map((word, i) => {
               return i === word.length - 1 && word.length !== 1 ? (
-                <div key={i}>
+                  <div key={i}>
                   {word.split("").map((char, j) => (
-                    <input
+                      <input
                       type="text"
                       className="char-input"
                       style={{ backgroundColor: "#22222230" }}
@@ -67,13 +79,13 @@ const Board = () => {
                       id={char}
                       maxlength="1"
                       onChange={(e) => checkLetter(e)}
-                    />
-                  ))}
+                      />
+                      ))}
                 </div>
               ) : (
-                <div key={i}>
+                  <div key={i}>
                   {word.split("").map((char, j) => (
-                    <input
+                      <input
                       type="text"
                       className="char-input"
                       style={{ backgroundColor: "#22222230" }}
@@ -81,18 +93,21 @@ const Board = () => {
                       id={char}
                       maxlength="1"
                       onChange={(e) => checkLetter(e)}
-                    />
-                  ))}
+                      />
+                      ))}
                   <input
+                    id="space"
                     className="space-slot"
-                    disabled
-                    style={{ backgroundColor: "#22222230" }}
-                  />
+                    style={{ backgroundColor: "#ffbf00" }}
+                    maxlength="1"
+                    onChange={(e) => checkLetter(e)}
+                    />
                 </div>
               );
               
             })
-      }
+        }
+        </section>
     </div>
   );
 };
