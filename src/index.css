@@ -22,4 +22,12 @@ code {
   border-radius: 1rem;
 }
 
-.sentence-container
+.sentence-container{
+  width: 50%;
+}
+
+.word-container{
+  display: flex;
+  width: 50%;
+  justify-content: space-between;
+}

@@ -69,12 +69,13 @@ const Board = () => {
       {
           scrambledSentence.split(' ').map((word, i) => {
               return i === word.length - 1 && word.length !== 1 ? (
-                  <div key={i}>
+                  <div  className="word-container" key={i}>
                   {word.split("").map((char, j) => (
+                      
                       <input
                       type="text"
                       className="char-input"
-                      style={{ backgroundColor: "#22222230" }}
+                      style={{ backgroundColor: "#22222230", width: `${100 / word.length}`}}
                       key={j}
                       id={char}
                       maxlength="1"
@@ -83,7 +84,7 @@ const Board = () => {
                       ))}
                 </div>
               ) : (
-                  <div key={i}>
+                  <div className="word-container" key={i}>
                   {word.split("").map((char, j) => (
                       <input
                       type="text"
