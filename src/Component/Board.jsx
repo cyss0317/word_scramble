@@ -53,17 +53,15 @@ const Board = () => {
           scrambledSentence.split(' ').map((word, i) => (
               <div>
                    {
-                       
                        i !== word.length - 1 ?
-                            
-                        // for(let j = 0; j < word.length + 1; j++){
-                        //     return
-                        //     if(j < word.length ){
-                        //         return <input type="text"  value={char}/>
-                        //     } 
-                        //     if(j === word.length - 1) return <button> </button>
+                        word.split('').map((char, j) => {
+                            if(j < word.length ){
+                                return <input type="text"  value={char}/>
+                            } 
+                            if(j === word.length - 1) return <button> </button>
 
-                        // } 
+                        }) 
+
                         :
                         word.split('').map((char, j) => (
                             <input type="text" defaultValue="" value={char}/>
