@@ -18,13 +18,13 @@ const Board = () => {
     const words = sentence.split(" ");
     const scrambledWords = words.map((word) => {
         const countIdx = {};
-        const scrambled = '';
-      for (let i = 0; i < word.length; i++) {
+        let scrambled = '';
+      while(scrambled.length !== word.length) {
         const randomIdx = Math.floor(Math.random() * word.length);
-        if(!countIdx === randomIdx){
+        if(!countIdx[randomIdx] ){
             console.log(word[randomIdx])
             countIdx[randomIdx] = word[randomIdx]
-            scrambled.concat(word[randomIdx])
+            scrambled += word[randomIdx]
         }
       }
       return scrambled
