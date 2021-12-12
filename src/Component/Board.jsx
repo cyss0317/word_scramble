@@ -45,10 +45,8 @@ const Board = () => {
 //   if(answer === scrambledSentence) setScore(old => old += 1)
   
   function checkLetter(e){
-
-
-
-
+    console.log(e)
+    window.e = e
     if(e.target.value === e.target.id){
         e.target.style.backgroundColor = "#00b300";
         e.target.style.color ="white"
@@ -63,12 +61,13 @@ const Board = () => {
 
         if (answer.concat(e.target.value) === scrambledSentence)
           setScore((old) => old + 1);
+    } else if(e.key === "Delete" || e.key === "Backspace"){
+        console.log('1231212')
     } else if (e.target.className === 'space-slot' && e.target.value !== ' '){
        e.target.style.backgroundColor = "#ffbf00";
        e.target.style.color = "white";
        
     } 
-    else {
         e.target.style.backgroundColor = "#22222220";
         e.target.style.color = "black";
     }
