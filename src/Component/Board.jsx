@@ -39,10 +39,7 @@ const Board = () => {
     scramble()
   },[sentence.length])
 
-  useEffect(()=> {
-      console.log(answer)
-    if(scrambledSentence === answer) setScore(old => old += 1)
-  },[scrambledSentence.length])
+
 
 //   if(answer === scrambledSentence) setScore(old => old += 1)
   
@@ -65,6 +62,8 @@ const Board = () => {
         e.target.style.backgroundColor = "#22222220";
         e.target.style.color = "black";
     }
+    
+    if(answer === scrambledSentence) setScore(old => old + 1)
   }
   
 
@@ -92,7 +91,7 @@ const Board = () => {
                       className="char-input"
                       style={{
                         backgroundColor: "#22222230",
-                        width: `${100 / word.length}%`,
+                        width: `${(100 / word.length) - 3}%`,
                       }}
                       key={j}
                       id={char}
@@ -109,7 +108,7 @@ const Board = () => {
                       className="char-input"
                       style={{
                         backgroundColor: "#22222230",
-                        width: `${100 / word.length}%`,
+                        width: `${(100 / word.length + 1) - 3}%`,
                       }}
                       key={j}
                       id={char}
@@ -122,7 +121,7 @@ const Board = () => {
                     className="space-slot"
                     style={{
                       backgroundColor: "#ffbf00",
-                      width: `${100 / word.length}%`,
+                      width: `${(100 / word.length + 1) - 3}%`,
                     }}
                     maxlength="1"
                     onChange={(e) => checkLetter(e)}

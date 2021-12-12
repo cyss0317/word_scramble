@@ -13,13 +13,17 @@ code {
     monospace;
 }
 
-.App{
-  background-color: #22222230;
-}
 
 .main-container{
   background-color: white;
   border-radius: 1rem;
+  padding: 1rem;
+  width: 70%;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  margin-top: -28rem;
+  margin-left: -35%;
 }
 
 .sentence-container{
@@ -28,5 +32,12 @@ code {
 
 .word-container{
   display: flex;
-  justify-content: space-evenly;
+  gap: 1rem;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.char-input, .space-slot{
+  height: 3rem;
+  border: none;
 }
