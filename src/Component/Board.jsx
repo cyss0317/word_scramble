@@ -40,22 +40,35 @@ const Board = () => {
   },[sentence.length])
 
 
+  document.addEventListener("keydown", function (event) {
+    if (event.keyCode == 32) {
+      console.log("Space was pressed!");
+    }
+  });
 
 //   if(answer === scrambledSentence) setScore(old => old += 1)
   
   function checkLetter(e){
 
+    const inputs = document.querySelectorAll(".sentence-container > div > input")
+    for(let i = 0)
+
+
     if(e.target.value === e.target.id){
         e.target.style.backgroundColor = "#00b300";
         e.target.style.color ="white"
+        debugger
+        // e.target.get(e.target.index(e.target.index + 1).focus())
         setAnswer(old => old.concat(e.target.value))
+        if (answer.concat(e.target.value) === scrambledSentence) setScore((old) => old + 1);
 
-        console.log(answer)
-    } else if( e.target.id === 'space' && e.target.value === ' '){
+    } else if( e.target.className === 'space-slot' && e.target.value === ' '){
         e.target.style.backgroundColor = "#00b300";
         e.target.style.color = "white";
         setAnswer((old) => old.concat(e.target.value));
-    } else if (e.target.id === 'space' && e.target.value !== ' '){
+        if (answer.concat(e.target.value) === scrambledSentence)
+          setScore((old) => old + 1);
+    } else if (e.target.className === 'space-slot' && e.target.value !== ' '){
        e.target.style.backgroundColor = "#ffbf00";
        e.target.style.color = "white";
     } 
