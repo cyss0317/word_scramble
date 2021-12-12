@@ -39,7 +39,12 @@ const Board = () => {
     scramble()
   },[sentence.length])
 
-  if(answer === scrambledSentence) setScore(old => old += 1)
+  useEffect(()=> {
+      console.log(answer)
+    if(scrambledSentence === answer) setScore(old => old += 1)
+  },[scrambledSentence.length])
+
+//   if(answer === scrambledSentence) setScore(old => old += 1)
   
   function checkLetter(e){
 
@@ -47,6 +52,7 @@ const Board = () => {
         e.target.style.backgroundColor = "#00b300";
         e.target.style.color ="white"
         setAnswer(old => old.concat(e.target.value))
+        console.log(answer)
     } else if( e.target.id === 'space' && e.target.value === ' '){
         e.target.style.backgroundColor = "#00b300";
         e.target.style.color = "white";
