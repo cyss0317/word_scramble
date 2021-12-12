@@ -41,29 +41,6 @@ const Board = () => {
     setFirstRender(false)
   },[sentence.length])
 
-  if(!firstRender){
-    //   useMemo(() => {
-    //       if(!firstRender){
-    //           const allInputs = document.querySelectorAll(
-    //             ".sentence-container > div > input"
-    //           );
-    //           setInputs(allInputs)
-    //           for (let i = 0; i < inputs.length; i++) {
-    //             allInputs[i].index = i;
-    //           }
-    //           setFirstRender(false)
-    //       }
-    //   },[inputs])
-    console.log("abcadadsgasgdsagas")
-        const allInputs = document.querySelectorAll(
-          ".sentence-container > div > input"
-        );
-        // setInputs(allInputs);
-        for (let i = 0; i < allInputs.length; i++) {
-        allInputs[i].tapIndex = i;
-        }
-
-  }
 
 //   if(answer === scrambledSentence) setScore(old => old += 1)
   
@@ -75,12 +52,7 @@ const Board = () => {
     if(e.target.value === e.target.id){
         e.target.style.backgroundColor = "#00b300";
         e.target.style.color ="white"
-        const inputs = document.querySelectorAll(
-            ".sentence-container > div > input"
-        );
-        debugger
-        let nextInput = inputs.get(inputs.index(e.target.tapIndex + 1))
-        if(nextInput) nextInput.focus()
+
         setAnswer(old => old.concat(e.target.value))
         if (answer.concat(e.target.value) === scrambledSentence) setScore((old) => old + 1);
 
@@ -88,17 +60,28 @@ const Board = () => {
         e.target.style.backgroundColor = "#00b300";
         e.target.style.color = "white";
         setAnswer((old) => old.concat(e.target.value));
+
         if (answer.concat(e.target.value) === scrambledSentence)
           setScore((old) => old + 1);
     } else if (e.target.className === 'space-slot' && e.target.value !== ' '){
        e.target.style.backgroundColor = "#ffbf00";
        e.target.style.color = "white";
+       
     } 
     else {
         e.target.style.backgroundColor = "#22222220";
         e.target.style.color = "black";
     }
     
+    const inputs = document.querySelectorAll(
+        ".sentence-container > div > input"
+    );
+    for (let i = 0; i < inputs.length; i++) {
+        inputs[i].tapIndex = i;
+    }
+
+    let nextInput = inputs[e.target.tapIndex + 1];
+    if (nextInput) nextInput.focus();
     if(answer === scrambledSentence) setScore(old => old + 1)
   }
   
