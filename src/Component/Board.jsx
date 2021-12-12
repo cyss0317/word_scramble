@@ -43,10 +43,27 @@ const Board = () => {
 
 
 //   if(answer === scrambledSentence) setScore(old => old += 1)
-  
+    function checkKey(e){
+        console.log('keycode',e.keyCode)
+            window.e = e;
+        if(e.keyCode === 8){
+            const inputs = document.querySelectorAll(
+                ".sentence-container > div > input"
+            );
+            for (let i = 0; i < inputs.length; i++) {
+                inputs[i].tapIndex = i;
+            }
+
+            let nextInput = inputs[e.target.tapIndex - 1];
+            if (nextInput) nextInput.focus();
+            if (answer === scrambledSentence) setScore((old) => old + 1);
+        }
+    }  
+
+
   function checkLetter(e){
-    console.log(e)
-    window.e = e
+    console.log('1', e.keyCode)
+
     if(e.target.value === e.target.id){
         e.target.style.backgroundColor = "#00b300";
         e.target.style.color ="white"
@@ -68,6 +85,7 @@ const Board = () => {
        e.target.style.color = "white";
        
     } 
+    else {
         e.target.style.backgroundColor = "#22222220";
         e.target.style.color = "black";
     }
@@ -109,12 +127,13 @@ const Board = () => {
                       className="char-input"
                       style={{
                         backgroundColor: "#22222230",
-                        width: `${(100 / word.length) - 3}%`,
+                        width: `${100 / word.length - 3}%`,
                       }}
                       key={j}
                       id={char}
                       maxLength="1"
                       onChange={(e) => checkLetter(e)}
+                      onKeyDown={(e) => checkKey(e)}
                     />
                   ))}
                 </div>
@@ -126,12 +145,13 @@ const Board = () => {
                       className="char-input"
                       style={{
                         backgroundColor: "#22222230",
-                        width: `${(100 / word.length + 1) - 3}%`,
+                        width: `${100 / word.length + 1 - 3}%`,
                       }}
                       key={j}
                       id={char}
                       maxLength="1"
                       onChange={(e) => checkLetter(e)}
+                      onKeyDown={(e) => checkKey(e)}
                     />
                   ))}
                   <input
@@ -139,10 +159,11 @@ const Board = () => {
                     className="space-slot"
                     style={{
                       backgroundColor: "#ffbf00",
-                      width: `${(100 / word.length + 1) - 3}%`,
+                      width: `${100 / word.length + 1 - 3}%`,
                     }}
                     maxLength="1"
                     onChange={(e) => checkLetter(e)}
+                    onKeyDown={(e) => checkKey(e)}
                   />
                 </div>
               );
