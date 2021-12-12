@@ -46,18 +46,23 @@ const Board = () => {
     function checkKey(e){
         console.log('keycode',e.keyCode)
             window.e = e;
-        if(e.keyCode === 8){
-            const inputs = document.querySelectorAll(
-                ".sentence-container > div > input"
-            );
-            for (let i = 0; i < inputs.length; i++) {
-                inputs[i].tapIndex = i;
-            }
 
-            let nextInput = inputs[e.target.tapIndex - 1];
-            if (nextInput) nextInput.focus();
-            if (answer === scrambledSentence) setScore((old) => old + 1);
-        }
+            if(e.keyCode === 8) e.target.previousElementSibling.focus();
+            // const inputs = document.querySelectorAll(
+            //     ".sentence-container > div > input"
+            // );
+            // for (let i = 0; i < inputs.length; i++) {
+            //     inputs[i].tapIndex = i;
+            // }
+
+            // let prevIdx = inputs[e.target.tapIndex - 1];
+
+                
+                // e.target.
+                // setSelectionRange(e.target.tapIndex, e.target.tapIndex - 1);
+                // prevIdx.focus();
+            // if (answer === scrambledSentence) setScore((old) => old + 1);
+        
     }  
 
 
@@ -78,9 +83,7 @@ const Board = () => {
 
         if (answer.concat(e.target.value) === scrambledSentence)
           setScore((old) => old + 1);
-    } else if(e.key === "Delete" || e.key === "Backspace"){
-        console.log('1231212')
-    } else if (e.target.className === 'space-slot' && e.target.value !== ' '){
+    }  else if (e.target.className === 'space-slot' && e.target.value !== ' '){
        e.target.style.backgroundColor = "#ffbf00";
        e.target.style.color = "white";
        
@@ -89,17 +92,8 @@ const Board = () => {
         e.target.style.backgroundColor = "#22222220";
         e.target.style.color = "black";
     }
-    
-    const inputs = document.querySelectorAll(
-        ".sentence-container > div > input"
-    );
-    for (let i = 0; i < inputs.length; i++) {
-        inputs[i].tapIndex = i;
-    }
+    e.target.previousElementSibling.focus();
 
-    let nextInput = inputs[e.target.tapIndex + 1];
-    if (nextInput) nextInput.focus();
-    if(answer === scrambledSentence) setScore(old => old + 1)
   }
   
 
@@ -134,6 +128,7 @@ const Board = () => {
                       maxLength="1"
                       onChange={(e) => checkLetter(e)}
                       onKeyDown={(e) => checkKey(e)}
+                      autofocus="true"
                     />
                   ))}
                 </div>
@@ -152,6 +147,7 @@ const Board = () => {
                       maxLength="1"
                       onChange={(e) => checkLetter(e)}
                       onKeyDown={(e) => checkKey(e)}
+                      autofocus="true"
                     />
                   ))}
                   <input
@@ -164,6 +160,7 @@ const Board = () => {
                     maxLength="1"
                     onChange={(e) => checkLetter(e)}
                     onKeyDown={(e) => checkKey(e)}
+                    autofocus="true"
                   />
                 </div>
               );
