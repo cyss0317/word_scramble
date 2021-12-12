@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 
 const Board = () => {
   const [sentence, setSentence] = useState("");
   const [scrambledSentence, setScrambledSentence] = useState("");
   const [answer, setAnswer] = useState('')
   const [score, setScore] = useState(0)
+  const [inputs, setInputs] = useState(null)
+  const [firstRender, setFirstRender] = useState(true)
 
   useEffect(() => {
     async function fetchWord() {
@@ -39,19 +41,24 @@ const Board = () => {
     scramble()
   },[sentence.length])
 
-
-  document.addEventListener("keydown", function (event) {
-    if (event.keyCode == 32) {
-      console.log("Space was pressed!");
-    }
-  });
+  useMemo(() => {
+      if(!firstRender){
+          const allInputs = document.querySelectorAll(
+            ".sentence-container > div > input"
+          );
+          setInputs(allInputs)
+          for (let i = 0; i < inputs.length; i++) {
+            allInputs[i].index = i;
+          }
+          setFirstRender(false)
+      }
+  },[inputs])
 
 //   if(answer === scrambledSentence) setScore(old => old += 1)
   
   function checkLetter(e){
 
-    const inputs = document.querySelectorAll(".sentence-container > div > input")
-    for(let i = 0)
+
 
 
     if(e.target.value === e.target.id){
