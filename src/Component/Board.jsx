@@ -5,7 +5,6 @@ const Board = () => {
   const [scrambledSentence, setScrambledSentence] = useState("");
   const [answer, setAnswer] = useState('')
   const [score, setScore] = useState(0)
-  const [inputs, setInputs] = useState(null)
   const [firstRender, setFirstRender] = useState(true)
 
   useEffect(() => {
@@ -39,20 +38,32 @@ const Board = () => {
 
   useEffect(()=> {
     scramble()
+    setFirstRender(false)
   },[sentence.length])
 
-  useMemo(() => {
-      if(!firstRender){
-          const allInputs = document.querySelectorAll(
-            ".sentence-container > div > input"
-          );
-          setInputs(allInputs)
-          for (let i = 0; i < inputs.length; i++) {
-            allInputs[i].index = i;
-          }
-          setFirstRender(false)
-      }
-  },[inputs])
+  if(!firstRender){
+    //   useMemo(() => {
+    //       if(!firstRender){
+    //           const allInputs = document.querySelectorAll(
+    //             ".sentence-container > div > input"
+    //           );
+    //           setInputs(allInputs)
+    //           for (let i = 0; i < inputs.length; i++) {
+    //             allInputs[i].index = i;
+    //           }
+    //           setFirstRender(false)
+    //       }
+    //   },[inputs])
+    console.log("abcadadsgasgdsagas")
+        const allInputs = document.querySelectorAll(
+          ".sentence-container > div > input"
+        );
+        // setInputs(allInputs);
+        for (let i = 0; i < allInputs.length; i++) {
+        allInputs[i].tapIndex = i;
+        }
+
+  }
 
 //   if(answer === scrambledSentence) setScore(old => old += 1)
   
@@ -64,8 +75,12 @@ const Board = () => {
     if(e.target.value === e.target.id){
         e.target.style.backgroundColor = "#00b300";
         e.target.style.color ="white"
+        const inputs = document.querySelectorAll(
+            ".sentence-container > div > input"
+        );
         debugger
-        // e.target.get(e.target.index(e.target.index + 1).focus())
+        let nextInput = inputs.get(inputs.index(e.target.tapIndex + 1))
+        if(nextInput) nextInput.focus()
         setAnswer(old => old.concat(e.target.value))
         if (answer.concat(e.target.value) === scrambledSentence) setScore((old) => old + 1);
 
@@ -116,7 +131,7 @@ const Board = () => {
                       }}
                       key={j}
                       id={char}
-                      maxlength="1"
+                      maxLength="1"
                       onChange={(e) => checkLetter(e)}
                     />
                   ))}
@@ -133,7 +148,7 @@ const Board = () => {
                       }}
                       key={j}
                       id={char}
-                      maxlength="1"
+                      maxLength="1"
                       onChange={(e) => checkLetter(e)}
                     />
                   ))}
@@ -144,7 +159,7 @@ const Board = () => {
                       backgroundColor: "#ffbf00",
                       width: `${(100 / word.length + 1) - 3}%`,
                     }}
-                    maxlength="1"
+                    maxLength="1"
                     onChange={(e) => checkLetter(e)}
                   />
                 </div>
