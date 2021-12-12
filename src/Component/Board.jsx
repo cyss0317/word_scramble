@@ -3,7 +3,8 @@ import React, { useState, useEffect } from "react";
 const Board = () => {
   const [sentence, setSentence] = useState("");
   const [scrambledSentence, setScrambledSentence] = useState("");
-  const [score, seScore] = useState(0)
+  const [answer, setAnswer] = useState('')
+  const [score, setScore] = useState(0)
 
   useEffect(() => {
     async function fetchWord() {
@@ -37,15 +38,19 @@ const Board = () => {
   useEffect(()=> {
     scramble()
   },[sentence.length])
+
+  if(answer === scrambledSentence) setScore(old => old += 1)
   
   function checkLetter(e){
 
-    if(e.target.value.toLowerCase() === e.target.id.toLowerCase()){
+    if(e.target.value === e.target.id){
         e.target.style.backgroundColor = "#00b300";
         e.target.style.color ="white"
+        setAnswer(old => old.concat(e.target.value))
     } else if( e.target.id === 'space' && e.target.value === ' '){
         e.target.style.backgroundColor = "#00b300";
         e.target.style.color = "white";
+        setAnswer((old) => old.concat(e.target.value));
     } else if (e.target.id === 'space' && e.target.value !== ' '){
        e.target.style.backgroundColor = "#ffbf00";
        e.target.style.color = "white";
@@ -64,45 +69,58 @@ const Board = () => {
       <p>
         Guess the sentence! Start typing. The yellow blocks are meant for spaces
       </p>
+      <p>
+        {answer}
+      </p>
       <h2>Score: {score}</h2>
       <section className="sentence-container">
       {
           scrambledSentence.split(' ').map((word, i) => {
+              console.log()
+
               return i === word.length - 1 && word.length !== 1 ? (
-                  <div  className="word-container" key={i}>
+                <div className="word-container" key={i}>
                   {word.split("").map((char, j) => (
-                      
-                      <input
+                    <input
                       type="text"
                       className="char-input"
-                      style={{ backgroundColor: "#22222230", width: `${100 / word.length}`}}
+                      style={{
+                        backgroundColor: "#22222230",
+                        width: `${100 / word.length}%`,
+                      }}
                       key={j}
                       id={char}
                       maxlength="1"
                       onChange={(e) => checkLetter(e)}
-                      />
-                      ))}
+                    />
+                  ))}
                 </div>
               ) : (
-                  <div className="word-container" key={i}>
+                <div className="word-container" key={i}>
                   {word.split("").map((char, j) => (
-                      <input
+                    <input
                       type="text"
                       className="char-input"
-                      style={{ backgroundColor: "#22222230" }}
+                      style={{
+                        backgroundColor: "#22222230",
+                        width: `${100 / word.length}%`,
+                      }}
                       key={j}
                       id={char}
                       maxlength="1"
                       onChange={(e) => checkLetter(e)}
-                      />
-                      ))}
+                    />
+                  ))}
                   <input
                     id="space"
                     className="space-slot"
-                    style={{ backgroundColor: "#ffbf00" }}
+                    style={{
+                      backgroundColor: "#ffbf00",
+                      width: `${100 / word.length}%`,
+                    }}
                     maxlength="1"
                     onChange={(e) => checkLetter(e)}
-                    />
+                  />
                 </div>
               );
               
