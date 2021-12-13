@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from "react";
 
 const Board = () => {
-  const [sentence, setSentence] = useState("");
+  const [sentence, setSentence] = useState(null);
   const [scrambledSentence, setScrambledSentence] = useState("");
   const [answer, setAnswer] = useState("");
   const [score, setScore] = useState(0);
   const [tapIndexed, setTapIndexed] = useState(false);
   const [inputs, setInputs] = useState(null);
   const [pointed, setPointed] = useState(false);
-  const [index, setIndex] = useState(1);
-
+  const [index, setIndex] = useState(9);
+  const [winStatus, setWinStatus] = useState(false)
   window.currentInputs = inputs;
 
   useEffect(() => {
@@ -17,7 +17,15 @@ const Board = () => {
       const url = `https://api.hatchways.io/assessment/sentences/${index}`;
       const response = await fetch(url);
       const data = await response.json();
-      setSentence(data.data.sentence);
+
+      if (response.ok){
+        setSentence(data.data.sentence);
+    }else {
+        setWinStatus(true)
+
+    }
+
+
     }
     fetchWord();
   }, [index]);
@@ -42,8 +50,9 @@ const Board = () => {
   }
 
   useEffect(() => {
-    scramble();
-  }, [sentence.length]);
+      console.log(sentence)
+      if(sentence) scramble();
+  }, [sentence]);
 
   //   if(answer === scrambledSentence) setScore(old => old += 1)
   function checkKey(e) {
@@ -75,12 +84,11 @@ const Board = () => {
         setAnswer((old) => old.slice(0, old.length - 1));
       }
 
-      if (pointed) {
-        setPointed(false);
-        setScore((old) => (old -= 1));
-      }
-    } else if (pointed && e.keyCode === 13) {
-      setPointed(false);
+
+    } else if ( e.keyCode === 13 && answer === scrambledSentence) {
+        console.log(answer)
+
+              setScore((old) => old + 1);
       setIndex((old) => (old += 1));
       setAnswer("");
       setTapIndexed(false);
@@ -111,19 +119,17 @@ const Board = () => {
     setAnswer((old) => old.concat(e.target.value));
     let nextInput = inputs[e.target.tapIndex + 1];
     if (nextInput) nextInput.focus();
-    if (answer.concat(e.target.value) === scrambledSentence) {
-      setScore((old) => old + 1);
-      setPointed(true);
-    }
-  }
 
-  return (
+  }
+  if(sentence){
+  return  (
     <div className="main-container">
       <h1 id="scrambled-word">{scrambledSentence}</h1>
       <p>
         Guess the sentence! Start typing. The yellow blocks are meant for spaces
       </p>
       <p>{score}</p>
+      <p>{answer}</p>
       <section className="sentence-container">
         {scrambledSentence.split(" ").map((word, i) => {
 
@@ -188,7 +194,19 @@ const Board = () => {
         })}
       </section>
     </div>
-  );
+  )} else if (winStatus) {
+    return (
+      <div className="main-container">
+        <p>You Win!</p>
+      </div>
+    );
+  } else {
+      return(
+          <></>
+      )
+  }
+
+  
 };
 
 export default Board;
