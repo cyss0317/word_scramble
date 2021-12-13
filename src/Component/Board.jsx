@@ -22,7 +22,7 @@ const Board = () => {
     fetchWord();
   }, [index]);
 
-  console.log("secondRender");
+
   function scramble() {
     const words = sentence.split(" ");
     const scrambledWords = words.map((word) => {
@@ -31,7 +31,6 @@ const Board = () => {
       while (scrambled.length !== word.length) {
         const randomIdx = Math.floor(Math.random() * word.length);
         if (!countIdx[randomIdx]) {
-          console.log(word[randomIdx]);
           countIdx[randomIdx] = word[randomIdx];
           scrambled += word[randomIdx];
         }
@@ -52,14 +51,12 @@ const Board = () => {
       let tempInputs = document.querySelectorAll(
         ".sentence-container > div > input"
       );
-      console.log("temp", tempInputs);
       setInputs(tempInputs);
       for (let i = 0; i < tempInputs.length; i++) {
         tempInputs[i].tapIndex = i;
         setTapIndexed(true);
       }
     }
-    console.log("keycode", e.keyCode);
     if (e.keyCode === 8) {
       const prevEle = inputs[e.target.tapIndex - 1];
       if (e.target.value.length === 1) {
@@ -87,22 +84,14 @@ const Board = () => {
       setIndex((old) => (old += 1));
       setAnswer("");
       setTapIndexed(false);
+      setSentence("")
+      setScrambledSentence("")
     }
   }
 
   function checkLetter(e) {
-    if (!tapIndexed) {
-      let tempInputs = document.querySelectorAll(
-        ".sentence-container > div > input"
-      );
-      console.log("temp", tempInputs);
-      setInputs(tempInputs);
-      for (let i = 0; i < tempInputs.length; i++) {
-        tempInputs[i].tabIndex = i;
-        setTapIndexed(true);
-      }
-    }
-    window.e = e;
+
+    
     if (e.target.value === e.target.id) {
       e.target.style.backgroundColor = "#00b300";
       e.target.style.color = "white";
@@ -112,9 +101,7 @@ const Board = () => {
 
       if (answer.concat(e.target.value) === scrambledSentence)
         setScore((old) => old + 1);
-    } else if (e.key === "Delete" || e.key === "Backspace") {
-      console.log("1231212");
-    } else if (e.target.className === "space-slot" && e.target.value !== " ") {
+    }  else if (e.target.className === "space-slot" && e.target.value !== " ") {
       e.target.style.backgroundColor = "#ffbf00";
       e.target.style.color = "white";
     } else {
@@ -136,64 +123,68 @@ const Board = () => {
       <p>
         Guess the sentence! Start typing. The yellow blocks are meant for spaces
       </p>
-      <p>{answer}</p>
-      <p>{answer.length}</p>
-      <h2>Score: {score}</h2>
+      <p>{score}</p>
       <section className="sentence-container">
         {scrambledSentence.split(" ").map((word, i) => {
-          console.log();
 
-          return i === word.length - 1 && word.length !== 1 ? (
-            <div className="word-container" key={i}>
-              {word.split("").map((char, j) => (
+
+          if (i < scrambledSentence.split(" ").length - 1) {
+            return (
+              <div className="word-container" key={i}>
+                {word.split("").map((char, j) => (
+                  <input
+                    type="text"
+                    className="char-input"
+                    style={{
+                      backgroundColor: "#22222230",
+                      width: `${100 / word.length + 1 - 3}%`,
+                    }}
+                    key={j}
+                    id={char}
+                    maxLength="1"
+                    onChange={(e) => checkLetter(e)}
+                    onKeyDown={(e) => checkKey(e)}
+                    autoFocus={i === 0 && j=== 0 ? true : false}
+
+                  />
+                ))}
                 <input
-                  type="text"
-                  className="char-input"
+                  id="space"
+                  className="space-slot"
                   style={{
-                    backgroundColor: "#22222230",
-                    width: `${100 / word.length - 3}%`,
-                  }}
-                  key={j}
-                  id={char}
-                  maxLength="1"
-                  onChange={(e) => checkLetter(e)}
-                  onKeyDown={(e) => checkKey(e)}
-                  autoFocus
-                />
-              ))}
-            </div>
-          ) : (
-            <div className="word-container" key={i}>
-              {word.split("").map((char, j) => (
-                <input
-                  type="text"
-                  className="char-input"
-                  style={{
-                    backgroundColor: "#22222230",
+                    backgroundColor: "#ffbf00",
                     width: `${100 / word.length + 1 - 3}%`,
                   }}
-                  key={j}
-                  id={char}
                   maxLength="1"
                   onChange={(e) => checkLetter(e)}
                   onKeyDown={(e) => checkKey(e)}
-                  autoFocus
+
                 />
-              ))}
-              <input
-                id="space"
-                className="space-slot"
-                style={{
-                  backgroundColor: "#ffbf00",
-                  width: `${100 / word.length + 1 - 3}%`,
-                }}
-                maxLength="1"
-                onChange={(e) => checkLetter(e)}
-                onKeyDown={(e) => checkKey(e)}
-                autoFocus
-              />
-            </div>
-          );
+              </div>
+            );
+          } else if (i === scrambledSentence.split(" ").length - 1) {
+          }  return (
+              <div className="word-container" key={i}>
+                {word.split("").map((char, j) => (
+                  <input
+                    type="text"
+                    className="char-input"
+                    style={{
+                      backgroundColor: "#22222230",
+                      width: `${100 / word.length - 3}%`,
+                    }}
+                    key={j}
+                    id={char}
+                    maxLength="1"
+                    onChange={(e) => checkLetter(e)}
+                    onKeyDown={(e) => checkKey(e)}
+
+                  />
+                ))}
+              </div>
+              
+            );
+               
         })}
       </section>
     </div>
