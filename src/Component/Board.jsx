@@ -8,7 +8,7 @@ const Board = () => {
     const [tapIndexed, setTapIndexed] = useState(false)
     const [inputs, setInputs] = useState(null)    
     const [pointed, setPointed] = useState(false)
-    const [index, setIndex] = useState(0)
+    const [index, setIndex] = useState(1)
 
 
     window.currentInputs = inputs
@@ -21,7 +21,7 @@ const Board = () => {
         setSentence(data.data.sentence)
     }
     fetchWord()
-}, []);
+}, [index]);
 
 
 
@@ -93,6 +93,8 @@ useEffect(()=> {
             } else if ( pointed && e.keyCode === 13){
                 setPointed(false);
                 setIndex(old => old += 1)
+                setAnswer('')
+                setTapIndexed(false)
             }
             
         
