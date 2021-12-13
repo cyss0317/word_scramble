@@ -8,7 +8,7 @@ const Board = () => {
   const [tapIndexed, setTapIndexed] = useState(false);
   const [inputs, setInputs] = useState(null);
   const [pointed, setPointed] = useState(false);
-  const [index, setIndex] = useState(9);
+  const [index, setIndex] = useState(1);
   const [winStatus, setWinStatus] = useState(false)
   window.currentInputs = inputs;
 
@@ -75,7 +75,7 @@ const Board = () => {
       } else if (prevEle && prevEle.className === "space-slot") {
         prevEle.focus();
         prevEle.value = "";
-        prevEle.style.backgroundColor = "#ffbf00";
+        prevEle.style.backgroundColor = "#ffb74d";
         setAnswer((old) => old.slice(0, old.length - 1));
       } else if (prevEle) {
         prevEle.focus();
@@ -101,16 +101,16 @@ const Board = () => {
 
     
     if (e.target.value === e.target.id) {
-      e.target.style.backgroundColor = "#00b300";
+      e.target.style.backgroundColor = "#4caf50";
       e.target.style.color = "white";
     } else if (e.target.className === "space-slot" && e.target.value === " ") {
-      e.target.style.backgroundColor = "#00b300";
+      e.target.style.backgroundColor = "#4caf50";
       e.target.style.color = "white";
 
       if (answer.concat(e.target.value) === scrambledSentence)
         setScore((old) => old + 1);
     }  else if (e.target.className === "space-slot" && e.target.value !== " ") {
-      e.target.style.backgroundColor = "#ffbf00";
+      e.target.style.backgroundColor = "#ffb74d";
       e.target.style.color = "white";
     } else {
       e.target.style.backgroundColor = "#22222220";
@@ -128,8 +128,7 @@ const Board = () => {
       <p>
         Guess the sentence! Start typing. The yellow blocks are meant for spaces
       </p>
-      <p>{score}</p>
-      <p>{answer}</p>
+      <h2>Score: {score}</h2>
       <section className="sentence-container">
         {scrambledSentence.split(" ").map((word, i) => {
 
@@ -142,7 +141,7 @@ const Board = () => {
                     type="text"
                     className="char-input"
                     style={{
-                      backgroundColor: "#22222230",
+                      backgroundColor: "#e1e1e1",
                       width: `${100 / word.length + 1 - 3}%`,
                     }}
                     key={j}
@@ -150,21 +149,19 @@ const Board = () => {
                     maxLength="1"
                     onChange={(e) => checkLetter(e)}
                     onKeyDown={(e) => checkKey(e)}
-                    autoFocus={i === 0 && j=== 0 ? true : false}
-
+                    autoFocus={i === 0 && j === 0 ? true : false}
                   />
                 ))}
                 <input
                   id="space"
                   className="space-slot"
                   style={{
-                    backgroundColor: "#ffbf00",
+                    backgroundColor: "#ffb74d",
                     width: `${100 / word.length + 1 - 3}%`,
                   }}
                   maxLength="1"
                   onChange={(e) => checkLetter(e)}
                   onKeyDown={(e) => checkKey(e)}
-
                 />
               </div>
             );
@@ -176,7 +173,7 @@ const Board = () => {
                     type="text"
                     className="char-input"
                     style={{
-                      backgroundColor: "#22222230",
+                      backgroundColor: "#e1e1e1",
                       width: `${100 / word.length - 3}%`,
                     }}
                     key={j}
