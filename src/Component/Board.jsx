@@ -7,8 +7,8 @@ const Board = () => {
     const [score, setScore] = useState(0)
     const [tapIndexed, setTapIndexed] = useState(false)
     const  [inputs, setInputs] = useState(null)    
-    const [firstRender, setFirstRender] = useState(true)
-    const [thirdRender, setThridRender] = useState(false)
+
+
     window.currentInputs = inputs
 
   useEffect(() => {
@@ -21,18 +21,8 @@ const Board = () => {
     fetchWord()
 }, []);
 
-if(!firstRender && !thirdRender){
-    setThridRender(true)
-}else if( thirdRender && !tapIndexed ){
-    debugger
-    let tempInputs = document.querySelectorAll(".sentence-container > div > input")
-    console.log('temp',tempInputs)
-    setInputs(tempInputs)
-  for (let i = 0; i < tempInputs.length; i++) {
-  tempInputs[i].tapIndex = i;
-      setTapIndexed(true)
-  }
-}
+
+
 console.log('secondRender')
   function scramble() {
     const words = sentence.split(" ");
@@ -55,7 +45,6 @@ console.log('secondRender')
 
 useEffect(()=> {
     scramble()
-    setFirstRender(false)
   },[sentence.length])
 
 
@@ -64,22 +53,43 @@ useEffect(()=> {
 
 //   if(answer === scrambledSentence) setScore(old => old += 1)
     function checkKey(e){
+        if(!tapIndexed){
+               let tempInputs = document.querySelectorAll(
+                 ".sentence-container > div > input"
+               );
+               console.log("temp", tempInputs);
+               setInputs(tempInputs);
+               for (let i = 0; i < tempInputs.length; i++) {
+                 tempInputs[i].tapIndex = i;
+                 setTapIndexed(true);
+               }
+        }
         console.log('keycode',e.keyCode)
             if(e.keyCode === 8) {
                 const prevEle = inputs[e.target.tabIndex - 1]
                 console.log(prevEle)
                 if(prevEle) prevEle.focus();
-                e.target.setSelectionRange(e.target.tabIndex, e.target.tabIndex - 1)
+                e.target.setSelectionRange(e.target.tapIndex, e.target.tapIndex - 1)
             }
-
             // if (answer === scrambledSentence) setScore((old) => old + 1);
         
     }  
 
 
   function checkLetter(e){
-    console.log('1', e.keyCode)
 
+    if (!tapIndexed) {
+        let tempInputs = document.querySelectorAll(
+        ".sentence-container > div > input"
+        );
+        console.log("temp", tempInputs);
+        setInputs(tempInputs);
+        for (let i = 0; i < tempInputs.length; i++) {
+        tempInputs[i].tabIndex = i;
+        setTapIndexed(true);
+        }
+    }
+    window.e = e
     if(e.target.value === e.target.id){
         e.target.style.backgroundColor = "#00b300";
         e.target.style.color ="white"
@@ -127,7 +137,7 @@ useEffect(()=> {
       {
           scrambledSentence.split(' ').map((word, i) => {
               console.log()
-                
+
               return i === word.length - 1 && word.length !== 1 ? (
                 <div className="word-container" key={i}>
                   {word.split("").map((char, j) => (
