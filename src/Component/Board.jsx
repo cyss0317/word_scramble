@@ -66,11 +66,14 @@ useEffect(()=> {
         }
         console.log('keycode',e.keyCode)
             if(e.keyCode === 8) {
-                const prevEle = inputs[e.target.tabIndex - 1]
-                console.log(prevEle)
-                if(prevEle) prevEle.focus();
-                e.target.setSelectionRange(e.target.tapIndex, e.target.tapIndex - 1)
-            }
+
+                const prevEle = inputs[e.target.tapIndex - 1]
+                if(prevEle) {
+                    prevEle.focus();
+                    prevEle.value = ""
+                    setScrambledSentence(old => )
+                }
+            } 
             // if (answer === scrambledSentence) setScore((old) => old + 1);
         
     }  
