@@ -6,14 +6,16 @@ const Board = () => {
     const [answer, setAnswer] = useState('')
     const [score, setScore] = useState(0)
     const [tapIndexed, setTapIndexed] = useState(false)
-    const  [inputs, setInputs] = useState(null)    
+    const [inputs, setInputs] = useState(null)    
+    const [pointed, setPointed] = useState(false)
+    const [index, setIndex] = useState(0)
 
 
     window.currentInputs = inputs
 
   useEffect(() => {
     async function fetchWord() {
-        const url = "https://api.hatchways.io/assessment/sentences/1";
+        const url = `https://api.hatchways.io/assessment/sentences/${index}`;
         const response = await fetch(url);
         const data = await response.json();
         setSentence(data.data.sentence)
@@ -68,13 +70,31 @@ useEffect(()=> {
             if(e.keyCode === 8) {
 
                 const prevEle = inputs[e.target.tapIndex - 1]
-                if(prevEle) {
-                    prevEle.focus();
-                    prevEle.value = ""
-                    setScrambledSentence(old => )
+                if (e.target.value.length === 1) {
+                  e.target.value = "";
+                  e.target.style.backgroundColor = "#22222220";
+                  setAnswer((old) => old.slice(0, old.length - 1));
+                } else if (prevEle && prevEle.className === "space-slot") {
+                  prevEle.focus();
+                  prevEle.value = "";
+                  prevEle.style.backgroundColor = "#ffbf00";
+                  setAnswer((old) => old.slice(0, old.length - 1));
+                } else if (prevEle) {
+                  prevEle.focus();
+                  prevEle.value = "";
+                  prevEle.style.backgroundColor = "#22222220";
+                  setAnswer((old) => old.slice(0, old.length - 1));
+                } 
+
+                if(pointed){
+                    setPointed(false);
+                    setScore(old => old -= 1)
                 }
-            } 
-            // if (answer === scrambledSentence) setScore((old) => old + 1);
+            } else if ( pointed && e.keyCode === 13){
+                setPointed(false);
+                setIndex(old => old += 1)
+            }
+            
         
     }  
 
@@ -97,13 +117,9 @@ useEffect(()=> {
         e.target.style.backgroundColor = "#00b300";
         e.target.style.color ="white"
 
-        setAnswer(old => old.concat(e.target.value))
-        if (answer.concat(e.target.value) === scrambledSentence) setScore((old) => old + 1);
-
     } else if( e.target.className === 'space-slot' && e.target.value === ' '){
         e.target.style.backgroundColor = "#00b300";
         e.target.style.color = "white";
-        setAnswer((old) => old.concat(e.target.value));
 
         if (answer.concat(e.target.value) === scrambledSentence)
           setScore((old) => old + 1);
@@ -118,10 +134,13 @@ useEffect(()=> {
         e.target.style.backgroundColor = "#22222220";
         e.target.style.color = "black";
     }
-
+    setAnswer((old) => old.concat(e.target.value));
     let nextInput = inputs[e.target.tapIndex + 1];
     if (nextInput) nextInput.focus();
-    if(answer === scrambledSentence) setScore(old => old + 1)
+    if(answer.concat(e.target.value) === scrambledSentence){
+        setScore(old => old + 1)
+        setPointed(true)
+    } 
   }
   
 
@@ -135,6 +154,7 @@ useEffect(()=> {
       <p>
         {answer}
       </p>
+      <p>{answer.length}</p>
       <h2>Score: {score}</h2>
       <section className="sentence-container">
       {
