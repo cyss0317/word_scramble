@@ -9,7 +9,7 @@ const Board = () => {
   const [inputs, setInputs] = useState(null);
   const [index, setIndex] = useState(1);
   const [winStatus, setWinStatus] = useState(false);
-  const [revealAnswer, setRevealAnswer] = useState("false")
+  const [revealAnswer, setRevealAnswer] = useState("false");
   window.currentInputs = inputs;
 
   useEffect(() => {
@@ -111,36 +111,37 @@ const Board = () => {
     let nextInput = inputs[e.target.tapIndex + 1];
     if (nextInput) nextInput.focus();
     console.log(e.target.value);
-    console.log(e.target.id)
-    console.log(' . ')
+    console.log(e.target.id);
+    console.log(" . ");
   }
 
-  function answerButton(e){
-    const button = e.target
-    if ( revealAnswer ){
-      setRevealAnswer(false)
-      button.textContent = `${sentence}`
-    } else{
-      setRevealAnswer(true)
-      button.textContent = 'Click to Reveal the answer'
-    } 
-
+  function answerButton(e) {
+    const button = e.target;
+    if (revealAnswer) {
+      setRevealAnswer(false);
+      button.textContent = `${sentence}`;
+    } else {
+      setRevealAnswer(true);
+      button.textContent = "Click to Reveal the answer";
+    }
   }
-  
+
   if (sentence) {
     return (
       <div className="main-container">
-        <h1 id="scrambled-word">{scrambledSentence}</h1>
+        <h1>Yun's Word Scrambler</h1>
+        <h2 id="scrambled-word">{scrambledSentence}</h2>
         <p>
-          Guess the sentence! Start typing. The yellow blocks are meant for
+          Guess the original sentence! Start typing. The yellow blocks are meant for
           spaces
         </p>
         <h2>Score: {score} / 10</h2>
-        <button className="answerButton" onClick={e => answerButton(e)}>Click to Reveal the answer</button>
-        { answer === sentence && <h3>Press Enter to continue</h3>}
+        <button className="answerButton" onClick={(e) => answerButton(e)}>
+          Click to Reveal the answer
+        </button>
+        {answer === sentence && <h3>Press Enter to continue</h3>}
         <section className="sentence-container">
           {scrambledSentence.split(" ").map((word, i) => {
-
             if (i < scrambledSentence.split(" ").length - 1) {
               return (
                 <div className="word-container" key={i}>

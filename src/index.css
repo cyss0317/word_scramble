@@ -1,7 +1,7 @@
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -9,12 +9,11 @@ body {
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+  font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
 
-
-.main-container{
+.main-container {
   background-color: white;
   border-radius: 1rem;
   padding: 1rem;
@@ -26,18 +25,19 @@ code {
   margin-left: -35%;
 }
 
-.sentence-container{
+.sentence-container {
   width: 100%;
 }
 
-.word-container{
+.word-container {
   display: flex;
   gap: 1rem;
   justify-content: space-between;
   margin-bottom: 1rem;
 }
 
-.char-input, .space-slot{
+.char-input,
+.space-slot {
   height: 3rem;
   border: none;
   border-radius: 0.5rem;
@@ -46,11 +46,12 @@ code {
   text-align: center;
 }
 
-#scrambled-word{
-  color: #0F52BA;
+#scrambled-word {
+  color: #0f52ba;
+  font-size: 2rem;
 }
 
-.answerButton{
+.answerButton {
   outline: none;
   border: none;
   background-color: transparent;
@@ -60,12 +61,16 @@ code {
   margin-bottom: 1rem;
 }
 
-.answerButton:hover{
+.answerButton:hover {
   transform: scale(1.05);
   transition: 0.1s;
 }
 
-.answerButton:active{
+.answerButton:active {
   transform: scale(0.95);
   transition: 0.1s;
+}
+
+.main-container > h1 {
+  color: #000000fc;
 }
