@@ -57,8 +57,15 @@ code {
   font-size: 1.75rem;
   color: #047904fc;
   cursor: pointer;
+  margin-bottom: 1rem;
 }
 
 .answerButton:hover{
-  
+  transform: scale(1.05);
+  transition: 0.1s;
+}
+
+.answerButton:active{
+  transform: scale(0.95);
+  transition: 0.1s;
 }
