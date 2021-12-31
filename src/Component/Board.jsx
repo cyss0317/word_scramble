@@ -9,7 +9,7 @@ const Board = () => {
   const [inputs, setInputs] = useState(null);
   const [index, setIndex] = useState(1);
   const [winStatus, setWinStatus] = useState(false);
-  const [revealAnswer]
+  const [revealAnswer, setRevealAnswer] = useState("false")
   window.currentInputs = inputs;
 
   useEffect(() => {
@@ -117,15 +117,21 @@ const Board = () => {
 
   function answerButton(e){
     const button = e.target
-    window.button = e.target
-    console.log(button)
+    if ( revealAnswer ){
+      setRevealAnswer(false)
+      button.textContent = `${sentence}`
+    } else{
+      setRevealAnswer(true)
+      button.textContent = 'Reveal the answer'
+    } 
+
   }
   
   if (sentence) {
     return (
       <div className="main-container">
         <h1 id="scrambled-word">{scrambledSentence}</h1>
-        <button onClick={e => answerButton(e)}>Reveal the answer</button>
+        <button className="answerButton" onClick={e => answerButton(e)}>Reveal the answer</button>
         <p>
           Guess the sentence! Start typing. The yellow blocks are meant for
           spaces
