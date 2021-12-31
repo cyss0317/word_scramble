@@ -7,9 +7,9 @@ const Board = () => {
   const [score, setScore] = useState(0);
   const [tapIndexed, setTapIndexed] = useState(false);
   const [inputs, setInputs] = useState(null);
-  const [pointed, setPointed] = useState(false);
   const [index, setIndex] = useState(1);
-  const [winStatus, setWinStatus] = useState(false)
+  const [winStatus, setWinStatus] = useState(false);
+  const [revealAnswer]
   window.currentInputs = inputs;
 
   useEffect(() => {
@@ -17,19 +17,14 @@ const Board = () => {
       const url = `https://api.hatchways.io/assessment/sentences/${index}`;
       const response = await fetch(url);
       const data = await response.json();
-
-      if (response.ok){
+      if (response.ok) {
         setSentence(data.data.sentence);
-    }else {
-        setWinStatus(true)
-
-    }
-
-
+      } else {
+        setWinStatus(true);
+      }
     }
     fetchWord();
   }, [index]);
-
 
   function scramble() {
     const words = sentence.split(" ");
@@ -50,8 +45,8 @@ const Board = () => {
   }
 
   useEffect(() => {
-      console.log(sentence)
-      if(sentence) scramble();
+    console.log(sentence);
+    if (sentence) scramble();
   }, [sentence]);
 
   //   if(answer === scrambledSentence) setScore(old => old += 1)
@@ -83,23 +78,19 @@ const Board = () => {
         prevEle.style.backgroundColor = "#22222220";
         setAnswer((old) => old.slice(0, old.length - 1));
       }
+    } else if (e.keyCode === 13 && answer === sentence) {
+      console.log(answer);
 
-
-    } else if ( e.keyCode === 13 && answer === scrambledSentence) {
-        console.log(answer)
-
-              setScore((old) => old + 1);
+      setScore((old) => old + 1);
       setIndex((old) => (old += 1));
       setAnswer("");
       setTapIndexed(false);
-      setSentence("")
-      setScrambledSentence("")
+      setSentence("");
+      setScrambledSentence("");
     }
   }
 
   function checkLetter(e) {
-
-    
     if (e.target.value === e.target.id) {
       e.target.style.backgroundColor = "#4caf50";
       e.target.style.color = "white";
@@ -107,9 +98,9 @@ const Board = () => {
       e.target.style.backgroundColor = "#4caf50";
       e.target.style.color = "white";
 
-      if (answer.concat(e.target.value) === scrambledSentence)
+      if (answer.concat(e.target.value) === sentence)
         setScore((old) => old + 1);
-    }  else if (e.target.className === "space-slot" && e.target.value !== " ") {
+    } else if (e.target.className === "space-slot" && e.target.value !== " ") {
       e.target.style.backgroundColor = "#ffb74d";
       e.target.style.color = "white";
     } else {
@@ -119,54 +110,66 @@ const Board = () => {
     setAnswer((old) => old.concat(e.target.value));
     let nextInput = inputs[e.target.tapIndex + 1];
     if (nextInput) nextInput.focus();
-
+    console.log(e.target.value);
+    console.log(e.target.id)
+    console.log(' . ')
   }
-  if(sentence){
-  return  (
-    <div className="main-container">
-      <h1 id="scrambled-word">{scrambledSentence}</h1>
-      <p>
-        Guess the sentence! Start typing. The yellow blocks are meant for spaces
-      </p>
-      <h2>Score: {score}</h2>
-      <section className="sentence-container">
-        {scrambledSentence.split(" ").map((word, i) => {
 
+  function answerButton(e){
+    const button = e.target
+    window.button = e.target
+    console.log(button)
+  }
+  
+  if (sentence) {
+    return (
+      <div className="main-container">
+        <h1 id="scrambled-word">{scrambledSentence}</h1>
+        <button onClick={e => answerButton(e)}>Reveal the answer</button>
+        <p>
+          Guess the sentence! Start typing. The yellow blocks are meant for
+          spaces
+        </p>
+        <h2>Score: {score}</h2>
+        { answer === sentence && <h3>Press Enter to continue</h3>}
+        <section className="sentence-container">
+          {scrambledSentence.split(" ").map((word, i) => {
 
-          if (i < scrambledSentence.split(" ").length - 1) {
-            return (
-              <div className="word-container" key={i}>
-                {word.split("").map((char, j) => (
+            if (i < scrambledSentence.split(" ").length - 1) {
+              return (
+                <div className="word-container" key={i}>
+                  {word.split("").map((char, j) => (
+                    <input
+                      type="text"
+                      className="char-input"
+                      style={{
+                        backgroundColor: "#e1e1e1",
+                        width: `${100 / word.length + 1 - 3}%`,
+                      }}
+                      key={j}
+                      id={sentence.split(" ")[i][j]}
+                      maxLength="1"
+                      onChange={(e) => checkLetter(e)}
+                      onKeyDown={(e) => checkKey(e)}
+                      autoFocus={i === 0 && j === 0 ? true : false}
+                    />
+                  ))}
                   <input
-                    type="text"
-                    className="char-input"
+                    id="space"
+                    className="space-slot"
                     style={{
-                      backgroundColor: "#e1e1e1",
+                      backgroundColor: "#ffb74d",
                       width: `${100 / word.length + 1 - 3}%`,
                     }}
-                    key={j}
-                    id={char}
                     maxLength="1"
                     onChange={(e) => checkLetter(e)}
                     onKeyDown={(e) => checkKey(e)}
-                    autoFocus={i === 0 && j === 0 ? true : false}
                   />
-                ))}
-                <input
-                  id="space"
-                  className="space-slot"
-                  style={{
-                    backgroundColor: "#ffb74d",
-                    width: `${100 / word.length + 1 - 3}%`,
-                  }}
-                  maxLength="1"
-                  onChange={(e) => checkLetter(e)}
-                  onKeyDown={(e) => checkKey(e)}
-                />
-              </div>
-            );
-          } else if (i === scrambledSentence.split(" ").length - 1) {
-          }  return (
+                </div>
+              );
+            } else if (i === scrambledSentence.split(" ").length - 1) {
+            }
+            return (
               <div className="word-container" key={i}>
                 {word.split("").map((char, j) => (
                   <input
@@ -177,33 +180,27 @@ const Board = () => {
                       width: `${100 / word.length - 3}%`,
                     }}
                     key={j}
-                    id={char}
+                    id={sentence.split(" ")[i][j]}
                     maxLength="1"
                     onChange={(e) => checkLetter(e)}
                     onKeyDown={(e) => checkKey(e)}
-
                   />
                 ))}
               </div>
-              
             );
-               
-        })}
-      </section>
-    </div>
-  )} else if (winStatus) {
+          })}
+        </section>
+      </div>
+    );
+  } else if (winStatus) {
     return (
       <div className="main-container">
         <p>You Win!</p>
       </div>
     );
   } else {
-      return(
-          <></>
-      )
+    return <></>;
   }
-
-  
 };
 
 export default Board;
