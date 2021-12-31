@@ -49,3 +49,16 @@ code {
 #scrambled-word{
   color: #0F52BA;
 }
+
+.answerButton{
+  outline: none;
+  border: none;
+  background-color: transparent;
+  font-size: 1.75rem;
+  color: #047904fc;
+  cursor: pointer;
+}
+
+.answerButton:hover{
+  
+}
