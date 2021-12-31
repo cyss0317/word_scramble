@@ -45,7 +45,6 @@ const Board = () => {
   }
 
   useEffect(() => {
-    console.log(sentence);
     if (sentence) scramble();
   }, [sentence]);
 
@@ -79,7 +78,6 @@ const Board = () => {
         setAnswer((old) => old.slice(0, old.length - 1));
       }
     } else if (e.keyCode === 13 && answer === sentence) {
-      console.log(answer);
 
       setScore((old) => old + 1);
       setIndex((old) => (old += 1));
@@ -110,9 +108,7 @@ const Board = () => {
     setAnswer((old) => old.concat(e.target.value));
     let nextInput = inputs[e.target.tapIndex + 1];
     if (nextInput) nextInput.focus();
-    console.log(e.target.value);
-    console.log(e.target.id);
-    console.log(" . ");
+ 
   }
 
   function answerButton(e) {
